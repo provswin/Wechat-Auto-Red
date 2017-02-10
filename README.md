@@ -68,6 +68,7 @@ Mac电脑需要准备的：
 2、确保已越狱的iPhone和Mac处于同一局域网，打开Mac OS的终端命令行工具
 
 3、输入ssh root@192.168.1.121远程登录已越狱的iPhone，root密码默认为alpine（其中192.168.1.121是iPhone的局域网IP地址）
+
 ![远程登录越狱的iPhone](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/2.png)
 
 4、在iPhone上运行一下微信，之后执行ps -e | grep WeChat查找WeChat可执行文件的路径，并记录为：可执行文件路径
