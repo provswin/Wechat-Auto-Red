@@ -52,72 +52,64 @@ Mac电脑需要准备的：
 
 1、苹果开发者账号
 
-开始
+#开始
 
 准备工作完成后，可以工作了
 
-一、砸壳
+##一、砸壳
 
 砸壳可以选择两种方式：自己砸壳 和 利用PP助手
 
-第一种：自己砸壳（不推荐）
+###第一种：自己砸壳（不推荐）
 
 1、首先使用已越狱的iPhone，通过App Store下载微信客户端（当前是6.5.4版本）
+![安装微信客户端](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/1.png)
 
-
-安装微信客户端
 2、确保已越狱的iPhone和Mac处于同一局域网，打开Mac OS的终端命令行工具
 
 3、输入ssh root@192.168.1.121远程登录已越狱的iPhone，root密码默认为alpine（其中192.168.1.121是iPhone的局域网IP地址）
+![远程登录越狱的iPhone](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/2.png)
 
-
-远程登录越狱的iPhone
 4、在iPhone上运行一下微信，之后执行ps -e | grep WeChat查找WeChat可执行文件的路径，并记录为：可执行文件路径
+![查找微信可执行文件的位置](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/3.png)
 
-
-查找微信可执行文件的位置
 5、通过Cycript查找到WeChat的Documents路径，输入cycript -p WeChat,进入cycript命令行状态
+![cy命令行状态](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/4.png)
 
 
-cy命令行状态
 6、输入NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)[0],就可以获取到WeChat的Documents路径了，并记录为：Documents路径
+![WeChat Documents路径](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/5.png)
 
-
-WeChat Documents路径
 记录下刚才的两个路径，接下来需要将砸壳工具dumpdecrypted拷贝到WeChat的Documents目录下用于砸壳
 
 7、将命令行切换回Mac OS X
 
 输入scp dumpdecrypted.dylib root@192.168.1.121:Documents路径
+![拷贝dumpdecrypted到Documents目录](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/6.png)
 
 
-拷贝dumpdecrypted到Documents目录
 8、重新远程登录到iPhone，使用dumpdecrypted.dylib砸壳，具体用法：
 
 DYLD_INSERT_LIBRARIES=/Documents路径/dumpdecrypted.dylib 可执行文件路径
+![dumpdecrypted砸壳过程](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/7.png)
 
-
-dumpdecrypted砸壳过程
 出现了如截图页面则表示砸壳成功，会在命令行执行的当前路径下生成WeChat.decrypted文件
+![生成的WeChat.decrypted文件](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/8.png)
 
-
-生成的WeChat.decrypted文件
 9、将生成的WeChat.decrypted使用scp命令拷贝到Mac电脑上，和之前从Mac电脑拷贝dumpdecrypted.dylib到手机上类似的语法。(下图中的黑色覆盖部分替换为你的Mac登陆用户名)
+![拷贝解密文件到Mac](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/9.png)
 
-
-拷贝解密文件到Mac
 10、为保险起见，可以对WeChat.decrypted文件检查一下，查看砸壳是否成功
 
 如截图第一个cryptid 0表示armv7架构已成功，第二个cryptid 1表示arm64未成功
 
 理论上只要把最老的架构解密就可以了，因为新的cpu会兼容老的架构；所以这里arm64未成功不影响
+![查看砸壳情况](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/10.png)
 
-
-查看砸壳情况
 11、再次远程连接iPhone，拷贝出WeChat.app待用（注意使用scp -r）
+![拷贝WeChat.app到Mac电脑](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/11.png)
 
 
-拷贝WeChat.app到Mac电脑
 第二种：利用PP助手（推荐）
 
 在已越狱的iPhone上安装PP助手后，从PP助手中下载微信客户端
@@ -125,26 +117,24 @@ dumpdecrypted砸壳过程
 PP助手上面的App的可执行文件都是经过了砸壳的,所以可以省去自己砸壳的步骤
 
 我们可以按照自己砸壳的步骤，导出PP助手的微信可执行文件，利用otool查看砸壳情况
+![PP助手中WeChat砸壳情况](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/12.png)
 
-
-PP助手中WeChat砸壳情况
 这表示armv7和arm64均已解密
 
 同样再次远程连接iPhone，拷贝出WeChat.app待用
 
-为什么需要砸壳？
+>为什么需要砸壳？
 
-因为苹果会将上线的iOS App进行加密，导致无法往其中写入编写好的抢红包dylib。
+>因为苹果会将上线的iOS App进行加密，导致无法往其中写入编写好的抢红包dylib。
 二、生成并注入dylib
 
 一、下载并安装iOSOpenDev
+![安装iOSOpenDev](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/13.png)
 
-
-安装iOSOpenDev
 因为我使用的是Xcode 8，直接安装iOSOpenDev会失败。
+![安装iOSOpenDev失败](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/14.png)
 
 
-安装iOSOpenDev失败
 如果你们也遇到类似的问题，可以尝试下载iOSOpenDev_Patches，然后按照如下步骤：
 
 1、把Specifications1文件夹重命名为Specifications放到/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/
@@ -159,8 +149,8 @@ PP助手中WeChat砸壳情况
 
 安装完iOSOpenDev后，在Xcode中选择Cocoa Touch Library。
 
+![创建Cocoa Touch Library工程](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/15.png)
 
-创建Cocoa Touch Library工程
 点击Next开始新建工程，将product name命名为autoGetRedEnv；
 
 删除autoGetRedEnv.h文件，修改autoGetRedEnv.m为autoGetRedEnv.mm，然后在项目中加入CaptainHook.h；
@@ -174,9 +164,9 @@ PP助手中WeChat砸壳情况
 ./yololib 目标可执行文件 需注入的dylib
 
 将WeChat.decrypted文件重命名为WeChat（建议备份好WeChat.decrypted文件，以便后续使用）
+![注入dylib](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/16.png)
 
 
-注入dylib
 上图效果则代表注入成功了
 
 三、重新签名并安装ipa
@@ -202,25 +192,22 @@ Input File  -> 选择刚才已经放入了新的可执行文件的WeChat.app
 Signing Certificate -> 开发者签名证书
 
 Provisioning Profile -> 选择下载并导入的mobileprovision
+![重新签名](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/17.png)
 
 
-重新签名
 点击Start开始进行打包，如下图表示生成成功
 
+![生成WeChat.ipa](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/18.png)
 
-生成WeChat.ipa
 
 二、使用iTools安装打包的ipa
+![安装打包的WeChat.ipa](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/19.png)
 
 
-安装打包的WeChat.ipa
 抢红包开始，基本都是0秒抢到：
 
 
+![0秒抢红包](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/20.png)
 
 
-0秒抢红包
-
-
-
-开启红包插件
+![开启红包插件](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/20.png)
