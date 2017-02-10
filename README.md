@@ -135,6 +135,7 @@ PP助手上面的App的可执行文件都是经过了砸壳的,所以可以省�
 ![安装iOSOpenDev](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/13.png)
 
 因为我使用的是Xcode 8，直接安装iOSOpenDev会失败。
+
 ![安装iOSOpenDev失败](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/14.png)
 
 
