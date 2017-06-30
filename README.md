@@ -214,4 +214,4 @@ Provisioning Profile -> 选择下载并导入的mobileprovision
 ![0秒抢红包](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/20.png)
 
 
-![开启红包插件](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/20.png)
+![开启红包插件](https://github.com/provswin/Wechat-Auto-Red/blob/master/Screenshot/21.png)
